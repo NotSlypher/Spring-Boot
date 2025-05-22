@@ -10,4 +10,6 @@ public interface StudentDAO {
     public List<Student> findAll();
     public List<Student> findByFirstName(String firstName);
     public void update(Student student);
+    public void delete(int id);
+    public int deleteAll();
 }

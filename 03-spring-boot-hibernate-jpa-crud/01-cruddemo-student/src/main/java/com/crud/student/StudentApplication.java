@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class StudentApplication {
 
@@ -18,8 +20,39 @@ public class StudentApplication {
 	public CommandLineRunner commandLineRunner(StudentDAO studentDAO) {
 		return runner -> {
 //			createStudent(studentDAO);
-			createMultipleStudent(studentDAO);
+//			createMultipleStudent(studentDAO);
+//			readStudent(studentDAO);
+//			findAll(studentDAO);
+			queryByFirstName(studentDAO);
 		};
+	}
+
+	private void queryByFirstName(StudentDAO studentDAO) {
+		List<Student> students = studentDAO.findByFirstName("Ayush");
+		for(Student student: students){
+			System.out.println(student);
+		}
+	}
+
+	private void findAll(StudentDAO studentDAO) {
+		List<Student> students = studentDAO.findAll();
+		for(Student student: students){
+			System.out.println(student);
+		}
+	}
+
+	private void readStudent(StudentDAO studentDAO) {
+		System.out.println("creating student");
+		Student student = new Student("Ayush", "Gupta", "ayush@gmail.com");
+
+		System.out.println("saving student");
+		studentDAO.save(student);
+
+		int id = student.getId();
+		System.out.println("finding student with id " + id);
+		student = studentDAO.findById(id);
+		System.out.println("found student with id " + id);
+		System.out.println(student);
 	}
 
 	private void createMultipleStudent(StudentDAO studentDAO) {

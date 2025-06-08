@@ -3,8 +3,11 @@ package com.spring.jpa_advanced.dao;
 import com.spring.jpa_advanced.entity.Instructor;
 import com.spring.jpa_advanced.entity.InstructorDetail;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class AppDAOImpl implements AppDAO{
@@ -34,8 +37,23 @@ public class AppDAOImpl implements AppDAO{
     }
 
     @Override
-    @Transactional
     public InstructorDetail findInstructorDetailById(int id) {
         return entityManager.find(InstructorDetail.class, id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteInstructorDetailById(int id) {
+        InstructorDetail instructorDetail = entityManager.find(InstructorDetail.class, id);
+
+        instructorDetail.getInstructor().setInstructorDetails(null);
+
+        entityManager.remove(instructorDetail);
+    }
+
+    @Override
+    public List<Instructor> findAll() {
+        TypedQuery<Instructor> query = entityManager.createQuery("from Instructor ", Instructor.class);
+        return query.getResultList();
     }
 }

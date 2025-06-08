@@ -8,6 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class JpaAdvancedApplication {
 
@@ -21,8 +23,26 @@ public class JpaAdvancedApplication {
 //			CreateInstructor(appDAO);
 //			FindInstructor(appDAO);
 //			DeleteInstructor(appDAO);
-			FindInstructorDetail(appDAO);
+//			FindInstructorDetail(appDAO);
+//			DeleteInstructorDetail(appDAO);
+			FindAllInstructor(appDAO);
 		};
+	}
+
+	private void FindAllInstructor(AppDAO appDAO) {
+		System.out.println("all the instructors are ");
+		List<Instructor> instructors = appDAO.findAll();
+		for(Instructor instructor: instructors){
+			System.out.println(instructor);
+		}
+	}
+
+	private void DeleteInstructorDetail(AppDAO appDAO) {
+		int id = 3;
+		System.out.println("Deleting instructor detail with id: " + id);
+
+		appDAO.deleteInstructorDetailById(id);
+		System.out.println("deleted");
 	}
 
 	private void FindInstructorDetail(AppDAO appDAO) {
@@ -35,8 +55,8 @@ public class JpaAdvancedApplication {
 	}
 
 	private void DeleteInstructor(AppDAO appDAO) {
-		int id = 2;
-		System.out.println("Deleting instructor with id " + 2);
+		int id = 3;
+		System.out.println("Deleting instructor with id " + id);
 		appDAO.deleteById(id);
 		System.out.println("done");
 	}

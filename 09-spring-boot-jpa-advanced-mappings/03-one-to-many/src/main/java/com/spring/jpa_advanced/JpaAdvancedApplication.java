@@ -4,6 +4,8 @@ import com.spring.jpa_advanced.dao.AppDAO;
 import com.spring.jpa_advanced.entity.Course;
 import com.spring.jpa_advanced.entity.Instructor;
 import com.spring.jpa_advanced.entity.InstructorDetail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @SpringBootApplication
 public class JpaAdvancedApplication {
+
+	private static final Logger log = LoggerFactory.getLogger(JpaAdvancedApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaAdvancedApplication.class, args);
@@ -26,9 +30,63 @@ public class JpaAdvancedApplication {
 //			DeleteInstructor(appDAO);
 //			FindInstructorDetail(appDAO);
 //			DeleteInstructorDetail(appDAO);
-			FindAllInstructor(appDAO);
+//			FindAllInstructor(appDAO);
 //			CreateInstructorWithCourses(appDAO);
+//			FindCoursesByInstructorId(appDAO);
+//			FindInstructorWithJoin(appDAO);
+//			UpdateInstructor(appDAO);
+//			UpdateCourse(appDAO);
+			DeleteCourse(appDAO);
 		};
+	}
+
+	private void DeleteCourse(AppDAO appDAO) {
+		int id = 1;
+		System.out.println("Deleting course with id: " + id);
+		appDAO.deleteCourseById(id);
+	}
+
+	private void UpdateCourse(AppDAO appDAO) {
+		int id = 1;
+		System.out.println("updating course");
+
+		Course course = appDAO.findCourseById(id);
+		course.setTitle("Pottery");
+
+		course = appDAO.update(course);
+		System.out.println("updated course " + course);
+	}
+
+	private void UpdateInstructor(AppDAO appDAO) {
+		int id = 5;
+		System.out.println("updating instructor");
+
+		Instructor instructor = appDAO.findById(id);
+		instructor.setLastName("Potter");
+
+		instructor = appDAO.update(instructor);
+		System.out.println("updated instructor " + instructor);
+	}
+
+	private void FindInstructorWithJoin(AppDAO appDAO) {
+		int id = 5;
+		System.out.println("find instructor with id: " + id);
+
+		Instructor instructor = appDAO.findInstructorWithJoin(id);
+		System.out.println("found instructor "+ instructor);
+		System.out.println("associated courses " + instructor.getCourses());
+	}
+
+	private void FindCoursesByInstructorId(AppDAO appDAO) {
+		int id = 5;
+		System.out.println("finding instructor with id: " + id);
+
+		Instructor instructor = appDAO.findById(id);
+		List<Course> courses = appDAO.findCoursesByInstructorId(id);
+		instructor.setCourses(courses);
+
+		System.out.printf("instructor " + instructor);
+		System.out.println("courses for instructor " + instructor.getCourses());
 	}
 
 	private void CreateInstructorWithCourses(AppDAO appDAO) {
@@ -71,7 +129,7 @@ public class JpaAdvancedApplication {
 	}
 
 	private void FindInstructorDetail(AppDAO appDAO) {
-		int id = 1;
+		int id = 3;
 		System.out.println("Finding instructor detail with id: " + id);
 
 		InstructorDetail instructorDetail = appDAO.findInstructorDetailById(id);
@@ -80,7 +138,7 @@ public class JpaAdvancedApplication {
 	}
 
 	private void DeleteInstructor(AppDAO appDAO) {
-		int id = 3;
+		int id = 5;
 		System.out.println("Deleting instructor with id " + id);
 		appDAO.deleteById(id);
 		System.out.println("done");

@@ -1,5 +1,6 @@
 package com.spring.jpa_advanced.dao;
 
+import com.spring.jpa_advanced.entity.Course;
 import com.spring.jpa_advanced.entity.Instructor;
 import com.spring.jpa_advanced.entity.InstructorDetail;
 
@@ -12,4 +13,10 @@ public interface AppDAO {
     public InstructorDetail findInstructorDetailById(int id);
     public void deleteInstructorDetailById(int id);
     public List<Instructor> findAll();
+    public List<Course> findCoursesByInstructorId(int id);
+    public Instructor findInstructorWithJoin(int id);
+    public Instructor update(Instructor instructor);
+    public Course update(Course course);
+    public Course findCourseById(int id);
+    public void deleteCourseById(int id);
 }
